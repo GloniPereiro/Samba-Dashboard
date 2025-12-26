@@ -1,4 +1,4 @@
-const output = document.getElementById('output');
+const output = document.getElementById('output'); //pobieranie elementu do wyświetlania danych użytkownika
     const token = sessionStorage.getItem('token');
 
     if (!token) {
@@ -6,11 +6,12 @@ const output = document.getElementById('output');
       window.location.href = '/login.html';
     } else {
       // Przykładowe wywołanie chronionego endpointu
-      fetch('http://localhost:5000/protected', { //adres endpointu do testowania chronionego zasobu
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      })
+      fetch("http://localhost:5000/api/protected", {
+    headers: {
+        "Authorization": "Bearer " + token
+    }
+})
+
       .then(res => res.json())
       .then(data => {
         if (data.ok) {

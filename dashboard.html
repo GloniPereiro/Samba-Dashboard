@@ -10,13 +10,24 @@
     <h1 id="title">Dashboard</h1>
     <p id="description">Manage your files easily and securely.</p>
     <pre id="output"></pre>
-
     <div id="dashboard-content">
-        <p>Welcome to your dashboard! Here you can upload, view, and manage your files.</p>
-        <!-- Additional dashboard content can go here -->   
+        <div id="left-container">
+            <h3>Twoje pliki</h3>
+            <div id="file-list">
+                <!-- Lista plików zostanie tutaj załadowana dynamicznie -->
+            </div>
+        </div>
+        <div id="right-container">
+            <h3>Prześlij nowy plik</h3>
+            <form id="upload-form">
+                <input type="file" id="file-input" name="file" required />
+                <br />
+                <button id="upload-button" type="submit">     
+                    Prześlij plik
+                </button>
+            </form>
+        </div>
     </div>
-
     <script src="dashboard.js"></script>
-
 </body>
 </html>
