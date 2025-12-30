@@ -6,7 +6,9 @@ exports.listFiles = (req, res) => {
 
     fs.readdir(uploadDir, (err, files) => {
         if (err) {
-            return res.status(500).json({ ok: false, message: 'Błąd odczytu folderu' });
+            const error = new Error('Błąd odczytu folderu');
+            error.status = 500;
+            throw error;
         }
 
         const fileList = files.map(filename => ({
@@ -23,12 +25,16 @@ exports.deleteFile = (req, res) => {
     const filePath = path.join(process.cwd(), 'uploads', filename);
 
     if (!fs.existsSync(filePath)) {
-        return res.status(404).json({ ok: false, message: 'Plik nie istnieje' });
+        const error = new Error('Plik nie istnieje');
+        error.status = 404;
+        throw error;
     }
 
     fs.unlink(filePath, (err) => {
         if (err) {
-            return res.status(500).json({ ok: false, message: 'Błąd podczas usuwania pliku' });
+            const error = new Error('Błąd podczas usuwania pliku');
+            error.status = 500;
+            throw error;
         }
 
         res.json({ ok: true, message: 'Plik usunięty' });
@@ -40,12 +46,16 @@ exports.downloadFile = (req, res) => {
     const filePath = path.join(process.cwd(), 'uploads', filename);
 
     if (!fs.existsSync(filePath)) {
-        return res.status(404).json({ ok: false, message: 'Plik nie istnieje' });
+        const error = new Error('Plik nie istnieje');
+        error.status = 404;
+        throw error;
     }
 
     res.download(filePath, filename, (err) => {
         if (err) {
-            return res.status(500).json({ ok: false, message: 'Błąd pobierania pliku' });
+            const error = new Error('Błąd pobierania pliku');
+            error.status = 500;
+            throw error;
         }
     });
 };
@@ -57,21 +67,29 @@ exports.renameFile = (req, res) => {
     const newFilePath = path.join(process.cwd(), 'uploads', newFilename);
     //walidacja żeby nazwa była podana
     if (!newFilename) {
-        return res.status(400).json({ ok: false, message: 'Nowa nazwa pliku jest wymagana' });
+        const error = new Error('Nowa nazwa pliku jest wymagana');
+        error.status = 400;
+        throw error;
     }
     //walidacja żeby plik istniał
     if (!fs.existsSync(oldFilePath)) {
-        return res.status(404).json({ ok: false, message: 'Plik nie istnieje' });
+        const error = new Error('Plik nie istnieje');
+        error.status = 404;
+        throw error;
     }
     //walidacja żeby nazwa nie zawierała niedozwolonych znaków
     const invalidChars = /[<>:"\/\\|?*\x00-\x1F]/g;
     if (invalidChars.test(newFilename)) {
-        return res.status(400).json({ ok: false, message: 'Nazwa pliku zawiera niedozwolone znaki' });
+        const error = new Error('Nazwa pliku zawiera niedozwolone znaki');
+        error.status = 400;
+        throw error;
     }   
 
     fs.rename(oldFilePath, newFilePath, (err) => {
         if (err) {
-            return res.status(500).json({ ok: false, message: 'Błąd podczas zmiany nazwy pliku' });
+            const error = new Error('Błąd podczas zmiany nazwy pliku');
+            error.status = 500;
+            throw error;
         }
 
         res.json({ ok: true, message: 'Plik przemieniony' });

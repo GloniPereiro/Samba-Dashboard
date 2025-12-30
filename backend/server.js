@@ -25,7 +25,8 @@ mongoose.connect(process.env.MONGO_URI)
 .catch(err => console.error('Błąd połączenia:', err));
 
 
-
+const errorHandler = require('./middleware/errorHandler');
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

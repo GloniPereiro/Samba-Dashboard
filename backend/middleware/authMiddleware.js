@@ -1,17 +1,29 @@
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
 module.exports = (req, res, next) => {
-    const token = req.headers.authorization?.split(' ')[1];
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader) {
+        const error = new Error("Brak nagłówka Authorization");
+        error.status = 401;
+        return next(error);
+    }
+
+    const token = authHeader.split(" ")[1];
 
     if (!token) {
-        return res.status(401).json({ error: 'Brak tokena' });
+        const error = new Error("Brak tokena");
+        error.status = 401;
+        return next(error);
     }
 
     try {
-        const decoded = jwt.verify(token, 'sekretnyklucz');
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
         req.user = decoded;
         next();
     } catch (err) {
-        res.status(403).json({ error: 'Nieprawidłowy token' });
+        const error = new Error("Nieprawidłowy token");
+        error.status = 403;
+        next(error);
     }
 };
