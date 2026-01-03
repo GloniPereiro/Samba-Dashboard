@@ -1,4 +1,8 @@
 export default function Header() {
-  return <h1>Dashboard</h1>;
+  return (
+    <header className="header">
+      <h1>Dashboard</h1>
+    </header>
+  );
 }
 

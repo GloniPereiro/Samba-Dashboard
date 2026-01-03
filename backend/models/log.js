@@ -4,7 +4,8 @@ const logSchema = new mongoose.Schema({
     userId: String,
     action: String,
     fileName: String,
-    timestamp: { type: Date, default: Date.now }
+    date: { type: Date, default: Date.now },
+    email: String
 });
 
 module.exports = mongoose.model("Log", logSchema);

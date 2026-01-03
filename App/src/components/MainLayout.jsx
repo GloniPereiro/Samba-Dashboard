@@ -1,16 +1,20 @@
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
+import ContentHeader from "./Content/ContentHeader";
+import "./MainLayout.css";
+import "./Button.css";
 
-export default function MainLayout({ children, setActiveSection }) {
+
+export default function MainLayout({ children, setActiveSection, activeSection }) {
   return (
     <div className="layout">
-      <Sidebar setActiveSection={setActiveSection} />
-      <div className="content">
         <Header />
+        <Sidebar setActiveSection={setActiveSection} />
+
         <main className="main">
+          <ContentHeader activeSection={activeSection} />  
           {children}
         </main>
-      </div>
     </div>
   );
 }
